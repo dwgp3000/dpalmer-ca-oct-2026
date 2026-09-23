@@ -1,0 +1,199 @@
+/* Dave Palmer Marketing
+   Global site styles
+   -------------------- */
+
+:root {
+	/* Brand colours */
+	--dp-background: #F4F0E9;
+	--dp-orange: #FF703B;
+	--dp-dark-orange: #FF6E44;
+	--dp-blue: #2C3E91;
+	--dp-text: #1A1A1A;
+	--dp-text-secondary: #6B6B6B;
+	--dp-white: #FFFFFF;
+	--dp-black: #000000;
+
+	/* Typography */
+	--dp-font-display: "Inter", Arial, sans-serif;
+	--dp-font-body: "Libre Franklin", Arial, sans-serif;
+
+	/* Layout */
+	--dp-section-spacing: 5rem;
+}
+
+body {
+	font-family: var(--dp-font-body);
+	color: var(--dp-text);
+	background: var(--dp-background);
+}
+
+
+/* Header
+   ------ */
+
+.site-header {
+	border-bottom: 1px solid #777;
+}
+
+.site-header .navbar {
+	min-height: 104px;
+	padding: 0;
+}
+
+.dp-brand {
+	display: flex;
+	flex-direction: column;
+	line-height: 1;
+	padding: 0;
+}
+
+.dp-brand-name {
+	font-family: var(--dp-font-display);
+	font-size: 1.4rem;
+	font-weight: 800;
+	letter-spacing: -0.04em;
+}
+
+.dp-brand-sub {
+	margin-top: 1px;
+	font-size: 0.78rem;
+	font-weight: 400;
+	text-align: right;
+}
+
+.dp-brand-mark {
+	color: var(--dp-orange);
+	font-weight: 700;
+}
+
+.site-header .navbar-nav {
+	gap: 2.7rem;
+}
+
+.site-header .nav-link {
+	padding: 1rem 0 !important;
+	font-size: 1rem;
+	color: var(--dp-text);
+}
+
+.site-header .nav-link:hover,
+.site-header .nav-link.active {
+	color: var(--dp-blue);
+}
+
+.dp-header-cta {
+	margin-left: 2.7rem;
+	padding: 0.9rem 1.55rem;
+	border: 0;
+	border-radius: 10px;
+	background: var(--dp-orange);
+	color: var(--dp-white);
+	font-weight: 700;
+	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.25);
+}
+
+.dp-header-cta:hover {
+	background: var(--dp-dark-orange);
+	color: var(--dp-white);
+}
+
+
+/* Responsive
+   ---------- */
+
+@media (max-width: 991.98px) {
+	.site-header .navbar {
+		min-height: 80px;
+	}
+
+	.site-header .navbar-nav {
+		gap: 0;
+		padding-top: 1rem;
+	}
+
+	.dp-header-cta {
+		display: inline-block;
+		margin: 0.75rem 0 1.25rem;
+	}
+}
+/* Homepage Hero
+   ------------- */
+
+.home-hero {
+	padding: 3.5rem 0 1.5rem;
+}
+
+.home-hero-title {
+	margin: 0 0 2rem;
+	font-family: var(--dp-font-display);
+	font-size: clamp(3rem, 6.2vw, 5rem);
+	font-weight: 900;
+	line-height: 1.08;
+	letter-spacing: -0.045em;
+	color: var(--dp-text);
+}
+
+.home-hero-copy {
+	max-width: 560px;
+	padding-bottom: 1rem;
+}
+
+.home-hero-copy p {
+	margin-bottom: 1.25rem;
+	font-size: 1rem;
+	font-weight: 500;
+	line-height: 1.25;
+}
+
+.home-hero-image {
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	height: 100%;
+}
+
+.home-hero-image img {
+	width: 100%;
+	max-width: 320px;
+	height: auto;
+}
+
+.dp-primary-button {
+	min-width: 350px;
+	padding: 0.9rem 1.5rem;
+	border: 0;
+	border-radius: 10px;
+	background: var(--dp-orange);
+	color: var(--dp-white);
+	font-family: var(--dp-font-body);
+	font-weight: 700;
+	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.25);
+}
+
+.dp-primary-button:hover {
+	background: var(--dp-dark-orange);
+	color: var(--dp-white);
+}
+
+@media (max-width: 991.98px) {
+	.home-hero {
+		padding-top: 2.5rem;
+	}
+
+	.home-hero-title {
+		margin-bottom: 2rem;
+	}
+
+	.home-hero-image {
+		margin-top: 2rem;
+	}
+
+	.home-hero-image img {
+		max-width: 300px;
+	}
+
+	.dp-primary-button {
+		min-width: 0;
+		width: 100%;
+	}
+}

@@ -1,10 +1,9 @@
 <header class="site-header">
 	<nav class="navbar navbar-expand-lg">
 		<div class="container">
-
-			<a class="navbar-brand" href="/">
-				<span class="brand-name">Dave Palmer</span>
-				<span class="brand-descriptor">Marketing</span>
+			<a class="navbar-brand dp-brand" href="/">
+				<span class="dp-brand-name">DAVE PALMER</span>
+				<span class="dp-brand-sub">marketing<span class="dp-brand-mark">—</span></span>
 			</a>
 
 			<button
@@ -20,22 +19,40 @@
 			</button>
 
 			<div class="collapse navbar-collapse" id="mainNavigation">
-				<ul class="navbar-nav ms-auto">
+				<ul class="navbar-nav ms-auto align-items-lg-center">
 					<li class="nav-item">
-						<a class="nav-link" href="/">Home</a>
+						<a class="nav-link active" href="/">Home</a>
 					</li>
+
+					<li class="nav-item dropdown">
+						<a
+							class="nav-link dropdown-toggle"
+							href="/services"
+							role="button"
+							data-bs-toggle="dropdown"
+							aria-expanded="false"
+						>
+							Services
+						</a>
+
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="/online-advertising">Online Advertising</a></li>
+							<li><a class="dropdown-item" href="/website-development">Website Development</a></li>
+							<li><a class="dropdown-item" href="/marketing-branding">Marketing & Branding</a></li>
+						</ul>
+					</li>
+
 					<li class="nav-item">
 						<a class="nav-link" href="/about">About</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/services">Services</a>
-					</li>
+
 					<li class="nav-item">
 						<a class="nav-link" href="/contact">Contact</a>
 					</li>
 				</ul>
-			</div>
 
+				<a class="btn dp-header-cta" href="/contact">Let's Talk</a>
+			</div>
 		</div>
 	</nav>
 </header>

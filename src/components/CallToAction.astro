@@ -1,0 +1,28 @@
+---
+interface Props {
+	heading: string;
+	text: string;
+	buttonText?: string;
+	buttonHref?: string;
+}
+
+const {
+	heading,
+	text,
+	buttonText = 'Book a Free Consultation',
+	buttonHref = '/contact'
+} = Astro.props;
+---
+
+<section class="cta-section">
+	<div class="container">
+		<div class="cta-inner">
+			<h2>{heading}</h2>
+			<p>{text}</p>
+
+			<a class="cta-button" href={buttonHref}>
+				{buttonText}
+			</a>
+		</div>
+	</div>
+</section>

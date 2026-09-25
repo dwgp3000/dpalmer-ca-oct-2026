@@ -1,0 +1,39 @@
+---
+interface Props {
+	heading: string;
+	paragraphs?: string[];
+	items?: string[];
+}
+
+const {
+	heading,
+	paragraphs = [],
+	items = []
+} = Astro.props;
+---
+
+<section class="content-section">
+	<div class="container">
+		<div class="content-section-inner">
+
+			<h2>{heading}</h2>
+
+			{paragraphs.map((paragraph) => (
+				<p>{paragraph}</p>
+			))}
+
+			{items.length > 0 && (
+				<div class="row content-section-list">
+					{items.map((item) => (
+						<div class="col-md-6">
+							<ul>
+								<li>{item}</li>
+							</ul>
+						</div>
+					))}
+				</div>
+			)}
+
+		</div>
+	</div>
+</section>

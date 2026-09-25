@@ -1,0 +1,53 @@
+---
+import ServiceCard from './ServiceCard.astro';
+
+interface Card {
+	title: string;
+	description: string;
+	href: string;
+	icon?: string;
+}
+
+interface Props {
+	heading?: string;
+	columns?: 2 | 3 | 4;
+	cards: Card[];
+}
+
+const {
+	heading,
+	columns = 3,
+	cards
+} = Astro.props;
+
+const columnClasses = {
+	2: 'col-md-6',
+	3: 'col-md-6 col-lg-4',
+	4: 'col-md-6 col-lg-3'
+};
+
+const columnClass = columnClasses[columns];
+---
+
+<section class="card-grid-section">
+	<div class="container">
+
+		{heading && (
+			<h2 class="card-grid-heading animate-heading">{heading}</h2>
+		)}
+
+		<div class="row g-4">
+			{cards.map((card) => (
+				<div class={columnClass}>
+					<ServiceCard
+						title={card.title}
+						description={card.description}
+						href={card.href}
+						icon={card.icon}
+					/>
+				</div>
+			))}
+		</div>
+
+	</div>
+</section>

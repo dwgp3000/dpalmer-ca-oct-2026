@@ -1,0 +1,45 @@
+---
+import targetIcon from '@phosphor-icons/core/bold/target-bold.svg';
+import treeStructureIcon from '@phosphor-icons/core/bold/tree-structure-bold.svg';
+import chartLineUpIcon from '@phosphor-icons/core/bold/chart-line-up-bold.svg';
+
+interface Props {
+	title: string;
+	description: string;
+	href: string;
+	icon?: 'target' | 'tree-structure' | 'chart-line-up';
+}
+
+const {
+	title,
+	description,
+	href,
+	icon
+} = Astro.props;
+
+const icons = {
+	target: targetIcon,
+	'tree-structure': treeStructureIcon,
+	'chart-line-up': chartLineUpIcon
+};
+
+const selectedIcon = icon ? icons[icon] : null;
+---
+
+<a class="service-card" href={href}>
+	<div class="service-card-heading">
+
+		{selectedIcon && (
+			<img
+				class="service-card-icon"
+				src={selectedIcon.src}
+				alt=""
+				aria-hidden="true"
+			/>
+		)}
+
+		<h3>{title}</h3>
+	</div>
+
+	<p>{description}</p>
+</a>

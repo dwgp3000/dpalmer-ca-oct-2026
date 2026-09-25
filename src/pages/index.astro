@@ -1,6 +1,30 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
+import CardGrid from '../components/CardGrid.astro';
+import ContentSection from '../components/ContentSection.astro';
+import CallToAction from '../components/CallToAction.astro';
+
+const services = [
+	{
+		title: 'Online Advertising',
+		description: 'Campaign strategy, Google Ads, Meta advertising, LinkedIn advertising, creative development, conversion tracking, and optimization.',
+		href: '/online-advertising',
+		icon: 'target'
+	},
+	{
+		title: 'Website Development',
+		description: 'Website strategy, development, landing pages, SEO planning, website refreshes, copywriting, and ongoing support.',
+		href: '/website-development',
+		icon: 'tree-structure'
+	},
+	{
+		title: 'Marketing & Branding',
+		description: 'Marketing strategy, marketing plans, brand positioning, marketing audits, content development, and strategic planning.',
+		href: '/marketing-branding',
+		icon: 'chart-line-up'
+	}
+];
 ---
 
 <Layout
@@ -8,4 +32,31 @@ import Hero from '../components/Hero.astro';
 	description="Marketing services for small businesses and organizations, including strategy, advertising and website development."
 >
 	<Hero />
+	<CardGrid
+	heading="SERVICES"
+	columns={3}
+	cards={services}
+/>
 </Layout>
+
+<ContentSection
+	heading="Senior Marketing Support Without the Overhead"
+	paragraphs={[
+		"Small organizations often don't have a full-time marketing department, but they still need experienced marketing leadership.",
+		"For more than 30 years, I've helped businesses, nonprofits, and membership organizations solve marketing challenges through strategy, branding, websites, advertising, and communications.",
+		"I provide senior-level marketing support without the cost of a full marketing department, combining practical advice, hands-on execution, and a focus on measurable results."
+	]}
+	items={[
+		'30+ years of experience',
+		'Strategy and execution',
+		'Branding and positioning',
+		'Website planning and development',
+		'Digital advertising and SEO',
+		'Project and stakeholder leadership',
+		'Agency and in-house experience',
+		'Practical, no-nonsense advice'
+	]}
+/><CallToAction
+	heading="Let's Talk About Your Marketing"
+	text="Whether you need a website, advertising support, strategic direction, or simply a second opinion, I'd be happy to discuss your goals."
+/>

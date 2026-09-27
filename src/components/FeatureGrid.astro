@@ -1,0 +1,63 @@
+---
+import magnifyingGlassIcon from '@phosphor-icons/core/bold/magnifying-glass-bold.svg';
+import crosshairIcon from '@phosphor-icons/core/bold/crosshair-bold.svg';
+import gearSixIcon from '@phosphor-icons/core/bold/gear-six-bold.svg';
+import chartBarIcon from '@phosphor-icons/core/bold/chart-bar-bold.svg';
+
+
+
+
+interface Feature {
+	title: string;
+	description: string;
+	icon: 'magnifying-glass' | 'crosshair' | 'gear-six' | 'chart-bar';
+}
+
+interface Props {
+	heading: string;
+	features: Feature[];
+}
+
+const { heading, features } = Astro.props;
+
+const icons = {
+	'magnifying-glass': magnifyingGlassIcon,
+	'crosshair': crosshairIcon,
+	'gear-six': gearSixIcon,
+	'chart-bar': chartBarIcon
+};
+---
+
+<section class="feature-grid">
+	<div class="container">
+		<h2>{heading}</h2>
+
+		<div class="row justify-content-center">
+			<div class="col-lg-10">
+				<div class="row g-4">
+					{features.map((feature) => {
+						const icon = icons[feature.icon];
+
+						return (
+							<div class="col-md-6">
+								<div class="feature-card">
+									<div class="feature-card-heading">
+										<img
+											class="feature-card-icon"
+											src={icon.src}
+											alt=""
+											aria-hidden="true"
+										/>
+										<h3>{feature.title}</h3>
+									</div>
+
+									<p>{feature.description}</p>
+								</div>
+							</div>
+						);
+					})}
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

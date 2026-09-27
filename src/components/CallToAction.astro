@@ -1,7 +1,8 @@
 ---
 interface Props {
 	heading: string;
-	text: string;
+	text?: string;
+	paragraphs?: string[];
 	buttonText?: string;
 	buttonHref?: string;
 }
@@ -9,6 +10,7 @@ interface Props {
 const {
 	heading,
 	text,
+	paragraphs = [],
 	buttonText = 'Book a Free Consultation',
 	buttonHref = '/contact'
 } = Astro.props;
@@ -18,7 +20,11 @@ const {
 	<div class="container">
 		<div class="cta-inner">
 			<h2>{heading}</h2>
-			<p>{text}</p>
+			{text && <p>{text}</p>}
+
+{paragraphs.map((paragraph) => (
+	<p>{paragraph}</p>
+))}
 
 			<a class="cta-button" href={buttonHref}>
 				{buttonText}

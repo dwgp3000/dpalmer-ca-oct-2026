@@ -1,0 +1,46 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BannerHero from '../../components/BannerHero.astro';
+import ContentSection from '../../components/ContentSection.astro';
+import CallToAction from '../../components/CallToAction.astro';
+---
+
+<Layout
+	title="Online Advertising | Dave Palmer Marketing"
+	description="Online advertising strategy and management for small businesses and organizations."
+>
+	<BannerHero
+		image="/images/Online-ads-page-1200x509-lr.jpg"
+		heading="Online Advertising"
+		description="Online advertising is often the fastest way to generate momentum and one of the easiest marketing investments to measure."
+		contentPosition="left"
+        />
+
+        <ContentSection
+	heading="Let's Start Advertising"
+	lead="Successful online advertising starts with a clear strategy. I help organizations plan, launch, manage, and improve online advertising across platforms such as Google and Meta (Facebook and Instagram)."
+	paragraphs={[
+		'This includes campaign setup, testing, optimization, reporting, and coordination with landing pages or website content.',
+		'Services include:'
+	]}
+	items={[
+		'Campaign Strategy',
+		'Advertising Content & Creative Development',
+		'Landing Page Development & Optimization',
+		'Google Ads Management',
+		'Conversion Tracking',
+		'Meta Advertising',
+		'Campaign Reporting & Optimization',
+		'LinkedIn Advertising'
+	]}
+	closingText="Most advertising work is managed monthly. In select cases, particularly for e-commerce or clearly defined lead generation, performance-based pricing may be considered when tracking and control requirements are met."
+/>
+<CallToAction
+	heading="Practical Advertising Management"
+	paragraphs={[
+		'Many businesses can technically run ads themselves. The challenge is knowing where to invest, how to measure success, and when to adjust.',
+		'I bring senior marketing experience to campaign planning and management, helping organizations avoid wasted spending and focus on the outcomes that matter most.'
+	]}
+/>
+
+</Layout>

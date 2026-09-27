@@ -1,0 +1,38 @@
+---
+interface Props {
+	image: string;
+	heading: string;
+	description: string;
+	contentPosition?: 'left' | 'right';
+	buttonText?: string;
+	buttonHref?: string;
+}
+
+const {
+	image,
+	heading,
+	description,
+	contentPosition = 'left',
+	buttonText = 'Book a Free Consultation',
+	buttonHref = '/contact'
+} = Astro.props;
+---
+
+<section
+	class={`banner-hero banner-hero-${contentPosition}`}
+	style={`background-image: url("${image}");`}
+>
+	<div class="banner-hero-overlay">
+		<div class="container">
+			<div class={`banner-hero-content banner-hero-content-${contentPosition}`}>
+				<h1>{heading}</h1>
+
+				<p>{description}</p>
+
+				<a class="dp-primary-button" href={buttonHref}>
+					{buttonText}
+				</a>
+			</div>
+		</div>
+	</div>
+</section>

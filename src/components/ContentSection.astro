@@ -1,14 +1,18 @@
 ---
 interface Props {
 	heading: string;
+	lead?: string;
 	paragraphs?: string[];
 	items?: string[];
+	closingText?: string;
 }
 
 const {
 	heading,
+	lead,
 	paragraphs = [],
-	items = []
+	items = [],
+	closingText
 } = Astro.props;
 ---
 
@@ -17,6 +21,9 @@ const {
 		<div class="content-section-inner">
 
 			<h2>{heading}</h2>
+			{lead && (
+	<p class="lead-paragraph">{lead}</p>
+)}
 
 			{paragraphs.map((paragraph) => (
 				<p>{paragraph}</p>
@@ -33,6 +40,10 @@ const {
 					))}
 				</div>
 			)}
+
+			{closingText && (
+	<p class="content-section-closing">{closingText}</p>
+)}
 
 		</div>
 	</div>

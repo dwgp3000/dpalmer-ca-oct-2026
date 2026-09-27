@@ -4,27 +4,8 @@ import Hero from '../components/Hero.astro';
 import CardGrid from '../components/CardGrid.astro';
 import ContentSection from '../components/ContentSection.astro';
 import CallToAction from '../components/CallToAction.astro';
+import { services } from '../data/services';
 
-const services = [
-	{
-		title: 'Online Advertising',
-		description: 'Campaign strategy, Google Ads, Meta advertising, LinkedIn advertising, creative development, conversion tracking, and optimization.',
-		href: '/online-advertising',
-		icon: 'target'
-	},
-	{
-		title: 'Website Development',
-		description: 'Website strategy, development, landing pages, SEO planning, website refreshes, copywriting, and ongoing support.',
-		href: '/website-development',
-		icon: 'tree-structure'
-	},
-	{
-		title: 'Marketing & Branding',
-		description: 'Marketing strategy, marketing plans, brand positioning, marketing audits, content development, and strategic planning.',
-		href: '/marketing-branding',
-		icon: 'chart-line-up'
-	}
-];
 ---
 
 <Layout

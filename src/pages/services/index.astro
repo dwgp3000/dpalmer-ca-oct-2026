@@ -1,0 +1,34 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BannerHero from '../../components/BannerHero.astro';
+import ContentSection from '../../components/ContentSection.astro';
+import CardGrid from '../../components/CardGrid.astro';
+import { services } from '../../data/services';
+---
+
+<Layout
+	title="Online Advertising | Dave Palmer Marketing"
+	description="Online advertising strategy and management for small businesses and organizations."
+>
+	<BannerHero
+	image="/images/Services-page-1200x509-lr.jpg"
+	heading="Services"
+	description="Online advertising, websites, marketing & branding."
+	contentPosition="right"
+/>
+
+       <ContentSection
+	heading="Marketing Services for Small Businesses"
+	lead="Marketing consulting, website development, and online advertising that help organizations attract customers, strengthen their brand, and achieve measurable results."
+	paragraphs={[
+		'With more than 30 years of experience in agency and in-house marketing leadership, I help small businesses, nonprofits, and membership organizations turn marketing plans into practical action.'
+	]}
+/>
+<CardGrid
+	heading="SERVICES"
+	columns={3}
+	cards={services}
+/>
+
+
+</Layout>

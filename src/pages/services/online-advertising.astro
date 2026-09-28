@@ -4,9 +4,10 @@ import BannerHero from '../../components/BannerHero.astro';
 import ContentSection from '../../components/ContentSection.astro';
 import CallToAction from '../../components/CallToAction.astro';
 import { sanityClient } from 'sanity:client';
-import imageUrlBuilder from '@sanity/image-url';
+import { createImageUrlBuilder } from '@sanity/image-url';
+import StructuredData from '../../components/StructuredData.astro';
 
-const builder = imageUrlBuilder(sanityClient);
+const builder = createImageUrlBuilder(sanityClient);
 
 function urlFor(source) {
 	return builder.image(source);
@@ -20,6 +21,9 @@ const service = await sanityClient.fetch(
 		heroContentPosition,
 		heroImage,
 		deliverables,
+		ctaHeading,
+        ctaParagraphs,
+        ctaButtonText,
 		seo {
 			metaTitle,
 			metaDescription
@@ -44,6 +48,14 @@ const heroImageUrl = service.heroImage
 	title={service.seo.metaTitle}
 	description={service.seo.metaDescription}
 >
+<StructuredData
+	name="Dave Palmer Marketing"
+	serviceName={service.title}
+	url="https://dpalmer.ca/services/online-advertising/"
+	description={service.seo.metaDescription}
+	deliverables={service.deliverables}
+/>
+
 	<BannerHero
 	image={heroImageUrl}
 	heading={service.heroHeading}
@@ -59,15 +71,13 @@ const heroImageUrl = service.heroImage
 		'Services include:'
 	]}
 	items={service.deliverables}
-	
+
 	closingText="Most advertising work is managed monthly. In select cases, particularly for e-commerce or clearly defined lead generation, performance-based pricing may be considered when tracking and control requirements are met."
 />
 <CallToAction
-	heading="Practical Advertising Management"
-	paragraphs={[
-		'Many businesses can technically run ads themselves. The challenge is knowing where to invest, how to measure success, and when to adjust.',
-		'I bring senior marketing experience to campaign planning and management, helping organizations avoid wasted spending and focus on the outcomes that matter most.'
-	]}
+	heading={service.ctaHeading}
+	paragraphs={service.ctaParagraphs}
+	buttonText={service.ctaButtonText}
 />
 
 </Layout>

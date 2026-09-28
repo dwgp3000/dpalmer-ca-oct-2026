@@ -2,8 +2,10 @@
 const {
 	type = "ProfessionalService",
 	name = "Dave Palmer Marketing",
+	serviceName,
 	url = "https://dpalmer.ca",
-	description = "Marketing services for small businesses and organizations, including strategy, advertising, branding and website development.",
+	description,
+	deliverables = [],
 } = Astro.props;
 
 const schema = {
@@ -12,10 +14,24 @@ const schema = {
 	name,
 	url,
 	description,
+
+	...(serviceName && {
+		hasOfferCatalog: {
+			"@type": "OfferCatalog",
+			name: `${serviceName} Services`,
+			itemListElement: deliverables.map((item) => ({
+				"@type": "Offer",
+				itemOffered: {
+					"@type": "Service",
+					name: item,
+				},
+			})),
+		},
+	}),
 };
 ---
 
 <script
 	type="application/ld+json"
 	set:html={JSON.stringify(schema)}
-/>
+></script>

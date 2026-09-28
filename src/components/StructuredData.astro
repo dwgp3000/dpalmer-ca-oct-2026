@@ -1,0 +1,21 @@
+---
+const {
+	type = "ProfessionalService",
+	name = "Dave Palmer Marketing",
+	url = "https://dpalmer.ca",
+	description = "Marketing services for small businesses and organizations, including strategy, advertising, branding and website development.",
+} = Astro.props;
+
+const schema = {
+	"@context": "https://schema.org",
+	"@type": type,
+	name,
+	url,
+	description,
+};
+---
+
+<script
+	type="application/ld+json"
+	set:html={JSON.stringify(schema)}
+/>

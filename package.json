@@ -13,6 +13,9 @@
   },
   "dependencies": {
     "@phosphor-icons/core": "^2.1.1",
+    "@sanity/astro": "^3.5.1",
+    "@sanity/client": "^8.8.0",
+    "@sanity/image-url": "^2.1.1",
     "astro": "^7.3.4",
     "bootstrap": "^5.3.8"
   },

@@ -3,18 +3,53 @@ import Layout from '../../layouts/Layout.astro';
 import BannerHero from '../../components/BannerHero.astro';
 import ContentSection from '../../components/ContentSection.astro';
 import CallToAction from '../../components/CallToAction.astro';
+import { sanityClient } from 'sanity:client';
+import imageUrlBuilder from '@sanity/image-url';
+
+const builder = imageUrlBuilder(sanityClient);
+
+function urlFor(source) {
+	return builder.image(source);
+}
+
+const service = await sanityClient.fetch(
+	`*[_type == "service" && slug.current == "services/online-advertising"][0]{
+		title,
+		heroHeading,
+		heroDescription,
+		heroContentPosition,
+		heroImage,
+		deliverables,
+		seo {
+			metaTitle,
+			metaDescription
+		}
+	}`
+);
+
+const heroImageUrl = service.heroImage
+	? urlFor(service.heroImage)
+			.width(1600)
+			.height(680)
+			.fit('crop')
+			.quality(85)
+			.auto('format')
+			.url()
+	: '/images/Online-ads-page-1200x509-lr.jpg';
+
+	
 ---
 
 <Layout
-	title="Online Advertising | Dave Palmer Marketing"
-	description="Online advertising strategy and management for small businesses and organizations."
+	title={service.seo.metaTitle}
+	description={service.seo.metaDescription}
 >
 	<BannerHero
-		image="/images/Online-ads-page-1200x509-lr.jpg"
-		heading="Online Advertising"
-		description="Online advertising is often the fastest way to generate momentum and one of the easiest marketing investments to measure."
-		contentPosition="left"
-        />
+	image={heroImageUrl}
+	heading={service.heroHeading}
+	description={service.heroDescription}
+	contentPosition={service.heroContentPosition}
+/>
 
         <ContentSection
 	heading="Let's Start Advertising"
@@ -23,16 +58,8 @@ import CallToAction from '../../components/CallToAction.astro';
 		'This includes campaign setup, testing, optimization, reporting, and coordination with landing pages or website content.',
 		'Services include:'
 	]}
-	items={[
-		'Campaign Strategy',
-		'Advertising Content & Creative Development',
-		'Landing Page Development & Optimization',
-		'Google Ads Management',
-		'Conversion Tracking',
-		'Meta Advertising',
-		'Campaign Reporting & Optimization',
-		'LinkedIn Advertising'
-	]}
+	items={service.deliverables}
+	
 	closingText="Most advertising work is managed monthly. In select cases, particularly for e-commerce or clearly defined lead generation, performance-based pricing may be considered when tracking and control requirements are met."
 />
 <CallToAction

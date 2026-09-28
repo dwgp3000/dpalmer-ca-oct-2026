@@ -1,0 +1,49 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BannerHero from '../components/BannerHero.astro';
+import ContactForm from '../components/ContactForm.astro';
+import CardGrid from '../components/CardGrid.astro';
+import { services } from '../data/services';
+---
+
+<Layout
+	title="Contact | Dave Palmer Marketing"
+	description="Contact Dave Palmer Marketing to discuss marketing strategy, online advertising, website development, branding, or other marketing needs."
+>
+	<BannerHero
+		image="/images/contact-page-1200x509-lr.jpg"
+		heading="Let's Talk About Your Marketing"
+		description="Tell me what you're working on, where you're getting stuck, and what you'd like to accomplish."
+		contentPosition="right"
+	/>
+
+	<section class="content-section contact-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-10">
+					<h2>What Happens Next?</h2>
+
+					<p>
+						Most projects start with a short conversation about your goals,
+						challenges, and priorities. If there’s a good fit, we’ll discuss
+						scope, timing, and next steps.
+					</p>
+
+					<p>
+						There’s no obligation and no long-term commitment required.
+					</p>
+
+					<div class="contact-form-wrapper">
+	<ContactForm />
+</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<CardGrid
+		heading="SERVICES"
+		columns={3}
+		cards={services}
+	/>
+</Layout>

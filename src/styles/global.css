@@ -134,13 +134,13 @@ body {
 }
 
 .home-hero-title {
-	margin: 0 0 2rem;
-	font-family: var(--dp-font-display);
-	font-size: clamp(3rem, 6.2vw, 5rem);
-	font-weight: 900;
-	line-height: 1.08;
-	letter-spacing: -0.045em;
-	color: var(--dp-text);
+    margin: 0 0 2rem;
+    font-family: var(--dp-font-display);
+    font-size: clamp(3rem, 6.2vw, 5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    color: var(--dp-text);
 }
 
 .home-hero-copy {
@@ -285,7 +285,17 @@ body {
 }
 
 .animate-heading {
-	animation: dp-heading-in 0.7s ease-out both;
+	animation: heading-slide-in 500ms ease-out 200ms both;
+}
+
+@keyframes heading-slide-in {
+	from {
+		transform: translateX(-100vw);
+	}
+
+	to {
+		transform: translateX(0);
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -598,6 +608,11 @@ body {
 		max-width: 300px;
 	}
 
+.banner-hero .container {
+	padding-left: 1.5rem;
+	padding-right: 1.5rem;
+}
+
 	.dp-primary-button {
 		min-width: 0;
 		width: 100%;
@@ -609,6 +624,64 @@ body {
 		padding: 3rem 0;
 	}
 
+	.site-footer {
+	padding: 3rem 0 2rem;
+}
+
+.site-footer .container {
+	padding-left: 1.5rem;
+	padding-right: 1.5rem;
+}
+
+.footer-heading {
+	margin-bottom: 1.25rem;
+}
+
+.footer-description {
+	margin-bottom: 0;
+}
+
+.footer-nav {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0.65rem 1.5rem;
+	margin-top: 0.75rem;
+}
+
+.footer-nav a {
+	margin: 0;
+}
+
+.footer-brand-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 2rem;
+	margin-top: 1rem;
+}
+
+.footer-brand {
+	margin: 0;
+}
+
+.footer-copyright {
+	margin: 2rem 0 0;
+}
+
+	.content-section > .container {
+	padding-left: 1.5rem;
+	padding-right: 1.5rem;
+}
+
+.cta-section > .container {
+	padding-left: 2rem;
+	padding-right: 2rem;
+}
+
+.feature-grid > .container {
+	padding-left: 2rem;
+	padding-right: 2rem;
+}
 	.service-card {
 		min-height: 0;
 		padding: 1.75rem;
@@ -625,12 +698,6 @@ body {
 	.cta-section {
 		padding: 3rem 0;
 	}
-
-	.cta-section {
-	padding: 4rem 0;
-	background: var(--dp-orange);
-	color: var(--dp-white);
-}
 
 	.cta-button {
 		min-width: 0;

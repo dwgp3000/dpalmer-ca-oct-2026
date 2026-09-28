@@ -3,54 +3,86 @@ import Layout from '../../layouts/Layout.astro';
 import BannerHero from '../../components/BannerHero.astro';
 import ContentSection from '../../components/ContentSection.astro';
 import CallToAction from '../../components/CallToAction.astro';
+import StructuredData from '../../components/StructuredData.astro';
+
+import { sanityClient } from 'sanity:client';
+import { createImageUrlBuilder } from '@sanity/image-url';
+
+const builder = createImageUrlBuilder(sanityClient);
+
+function urlFor(source) {
+	return builder.image(source);
+}
+
+const service = await sanityClient.fetch(
+	`*[_type == "service" && slug.current == "services/websites"][0]{
+		title,
+		shortDescription,
+		heroHeading,
+		heroDescription,
+		heroContentPosition,
+		heroImage,
+		contentSections[]{
+			heading,
+			lead,
+			paragraphs,
+			showDeliverables,
+			closingText
+		},
+		deliverables,
+		ctaHeading,
+		ctaParagraphs,
+		ctaButtonText,
+		seo {
+			metaTitle,
+			metaDescription
+		}
+	}`
+);
+
+const heroImageUrl = service.heroImage
+	? urlFor(service.heroImage)
+			.width(1600)
+			.height(680)
+			.fit('crop')
+			.quality(85)
+			.auto('format')
+			.url()
+	: '/images/website-page-1200x509-lr.jpg';
 ---
 
 <Layout
-	title="Online Advertising | Dave Palmer Marketing"
-	description="Online advertising strategy and management for small businesses and organizations."
+	title={service.seo.metaTitle}
+	description={service.seo.metaDescription}
 >
+	<StructuredData
+		name="Dave Palmer Marketing"
+		serviceName={service.title}
+		url="https://dpalmer.ca/services/websites/"
+		description={service.seo.metaDescription}
+		deliverables={service.deliverables}
+	/>
+
 	<BannerHero
-	image="/images/website-page-1200x509-lr.jpg"
-	heading="Website Development"
-	description="Professional websites designed to support your business, marketing, and communications goals."
-	contentPosition="left"
-/>
+		image={heroImageUrl}
+		heading={service.heroHeading}
+		description={service.heroDescription}
+		contentPosition={service.heroContentPosition}
+	/>
 
-        <ContentSection
-	heading="Websites That Support Marketing Goals"
-	lead="Strategic, conversion-focused websites designed to support your marketing, improve visibility, and help your organization grow."
-	paragraphs={[
-		'I develop strategic, conversion-focused websites for organizations launching a new website or planning a website redesign. Every project is designed to communicate clearly, support marketing goals, and help turn more visitors into customers.',
-		'Website development services include:'
-	]}
-	items={[
-		'Website Strategy',
-		'SEO Planning & Optimization',
-		'Website Development',
-		'Website Refreshes',
-		'Landing Page Development',
-		'Website Content Updates',
-		'Website Copywriting',
-		'Website Maintenance & Support'
-	]}
-	closingText="Website projects are typically delivered as fixed-scope engagements. Ongoing website maintenance, content updates, and optimization are available through monthly support plans when continued assistance is required."
-/>
+	{service.contentSections.map((section) => (
+		<ContentSection
+			heading={section.heading}
+			lead={section.lead}
+			paragraphs={section.paragraphs}
+			items={section.showDeliverables ? service.deliverables : []}
+			closingText={section.closingText}
+		/>
+	))}
 
-<ContentSection
-	heading="SEO Starts Before the Design"
-	paragraphs={[
-		'A successful website requires more than good design. It requires a clear understanding of your audience, your positioning, and how potential customers search for your products or services.',
-		"That's why SEO considerations begin before design and development. Positioning, keyword opportunities, page structure, content priorities, and conversion goals are identified early, helping ensure the finished website supports both user experience and search performance.",
-		"Whether you're building a new website or planning a website redesign, the result is a website that's easier to use, easier to maintain, and better aligned with your marketing goals."
-	]}
-/>
-
-<CallToAction
-	heading="Websites That Support Your Business"
-	paragraphs={[
-		"A successful website balances strategy, content, design, and technology. The goal isn't simply to launch a website. It's to create an online presence that supports your organization, strengthens your marketing, and helps achieve measurable business goals.",
-		"By combining senior marketing experience with practical implementation, I help organizations develop websites that are easier to manage, easier to understand, and better aligned with their long-term objectives."
-	]}
-/>
-
+	<CallToAction
+		heading={service.ctaHeading}
+		paragraphs={service.ctaParagraphs}
+		buttonText={service.ctaButtonText}
+	/>
 </Layout>

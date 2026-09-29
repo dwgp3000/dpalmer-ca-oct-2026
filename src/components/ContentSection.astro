@@ -1,10 +1,14 @@
 ---
+import {PortableText} from '@portabletext/astro';
+
 interface Props {
 	heading: string;
 	lead?: string;
 	paragraphs?: string[];
 	items?: string[];
 	closingText?: string;
+	contentType?: 'standard' | 'richText';
+	richText?: any[];
 }
 
 const {
@@ -12,7 +16,9 @@ const {
 	lead,
 	paragraphs = [],
 	items = [],
-	closingText
+	closingText,
+	contentType = 'standard',
+	richText = []
 } = Astro.props;
 ---
 
@@ -21,29 +27,38 @@ const {
 		<div class="content-section-inner">
 
 			<h2>{heading}</h2>
+
 			{lead && (
-	<p class="lead-paragraph">{lead}</p>
-)}
+				<p class="lead-paragraph">{lead}</p>
+			)}
 
-			{paragraphs.map((paragraph) => (
-				<p>{paragraph}</p>
-			))}
-
-			{items.length > 0 && (
-				<div class="row content-section-list">
-					{items.map((item) => (
-						<div class="col-md-6">
-							<ul>
-								<li>{item}</li>
-							</ul>
-						</div>
-					))}
+			{contentType === 'richText' ? (
+				<div class="content-section-rich-text">
+					<PortableText value={richText} />
 				</div>
+			) : (
+				<>
+					{paragraphs.map((paragraph) => (
+						<p>{paragraph}</p>
+					))}
+
+					{items.length > 0 && (
+						<div class="row content-section-list">
+							{items.map((item) => (
+								<div class="col-md-6">
+									<ul>
+										<li>{item}</li>
+									</ul>
+								</div>
+							))}
+						</div>
+					)}
+				</>
 			)}
 
 			{closingText && (
-	<p class="content-section-closing">{closingText}</p>
-)}
+				<p class="content-section-closing">{closingText}</p>
+			)}
 
 		</div>
 	</div>

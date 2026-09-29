@@ -4,41 +4,103 @@ import Hero from '../components/Hero.astro';
 import CardGrid from '../components/CardGrid.astro';
 import ContentSection from '../components/ContentSection.astro';
 import CallToAction from '../components/CallToAction.astro';
-import { services } from '../data/services';
 
+import { sanityClient } from 'sanity:client';
+import { createImageUrlBuilder } from '@sanity/image-url';
+
+const builder = createImageUrlBuilder(sanityClient);
+
+function urlFor(source) {
+	return builder.image(source);
+}
+
+const homePage = await sanityClient.fetch(
+	`*[_type == "homePage"][0]{
+		heroHeading,
+		heroParagraphs,
+		heroButtonText,
+		heroButtonLink,
+		heroImage,
+
+		servicesHeading,
+
+		featuredServices[]->{
+			title,
+			shortDescription,
+			"href": "/" + slug.current + "/",
+			icon
+		},
+
+		contentSections[]{
+			heading,
+			lead,
+			contentType,
+			paragraphs,
+			items,
+			richText,
+			showDeliverables,
+			closingText
+		},
+
+		ctaHeading,
+		ctaParagraphs,
+		ctaButtonText,
+
+		seo {
+			metaTitle,
+			metaDescription
+		}
+	}`
+);
+
+const heroImageUrl = homePage.heroImage
+	? urlFor(homePage.heroImage)
+			.width(650)
+			.auto('format')
+			.url()
+	: '/images/Dave-Palmer-transparent-650p.png';
+
+const services = homePage.featuredServices.map((service) => ({
+	title: service.title,
+	description: service.shortDescription,
+	href: service.href,
+	icon: service.icon
+}));
 ---
 
 <Layout
-	title="Dave Palmer Marketing | Regina Marketing, Advertising & Websites"
-	description="Marketing services for small businesses and organizations, including strategy, advertising and website development."
+	title={homePage.seo.metaTitle}
+	description={homePage.seo.metaDescription}
 >
-	<Hero />
+	<Hero
+		heading={homePage.heroHeading}
+		paragraphs={homePage.heroParagraphs}
+		buttonText={homePage.heroButtonText}
+		buttonLink={homePage.heroButtonLink}
+		image={heroImageUrl}
+	/>
 
 	<CardGrid
-	heading="SERVICES"
-	columns={3}
-	cards={services}
-/>
+		heading={homePage.servicesHeading}
+		columns={3}
+		cards={services}
+	/>
 
-<ContentSection
-	heading="Senior Marketing Support Without the Overhead"
-	paragraphs={[
-		"Small organizations often don't have a full-time marketing department, but they still need experienced marketing leadership.",
-		"For more than 30 years, I've helped businesses, nonprofits, and membership organizations solve marketing challenges through strategy, branding, websites, advertising, and communications.",
-		"I provide senior-level marketing support without the cost of a full marketing department, combining practical advice, hands-on execution, and a focus on measurable results."
-	]}
-	items={[
-		'30+ years of experience',
-		'Strategy and execution',
-		'Branding and positioning',
-		'Website planning and development',
-		'Digital advertising and SEO',
-		'Project and stakeholder leadership',
-		'Agency and in-house experience',
-		'Practical, no-nonsense advice'
-	]}
-/><CallToAction
-	heading="Let's Talk About Your Marketing"
-	text="Whether you need a website, advertising support, strategic direction, or simply a second opinion, I'd be happy to discuss your goals."
-/>
+	{homePage.contentSections.map((section) => (
+		<ContentSection
+			heading={section.heading}
+			lead={section.lead}
+			contentType={section.contentType}
+			paragraphs={section.paragraphs}
+			items={section.items}
+			richText={section.richText}
+			closingText={section.closingText}
+		/>
+	))}
+
+	<CallToAction
+		heading={homePage.ctaHeading}
+		paragraphs={homePage.ctaParagraphs}
+		buttonText={homePage.ctaButtonText}
+	/>
 </Layout>

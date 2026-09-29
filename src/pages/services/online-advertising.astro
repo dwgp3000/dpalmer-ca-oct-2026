@@ -20,10 +20,17 @@ const service = await sanityClient.fetch(
 		heroDescription,
 		heroContentPosition,
 		heroImage,
-		deliverables,
-		ctaHeading,
-        ctaParagraphs,
-        ctaButtonText,
+contentSections[]{
+	heading,
+	lead,
+	paragraphs,
+	showDeliverables,
+	closingText
+},
+deliverables,
+ctaHeading,
+ctaParagraphs,
+ctaButtonText,
 		seo {
 			metaTitle,
 			metaDescription
@@ -63,17 +70,15 @@ const heroImageUrl = service.heroImage
 	contentPosition={service.heroContentPosition}
 />
 
-        <ContentSection
-	heading="Let's Start Advertising"
-	lead="Successful online advertising starts with a clear strategy. I help organizations plan, launch, manage, and improve online advertising across platforms such as Google and Meta (Facebook and Instagram)."
-	paragraphs={[
-		'This includes campaign setup, testing, optimization, reporting, and coordination with landing pages or website content.',
-		'Services include:'
-	]}
-	items={service.deliverables}
-
-	closingText="Most advertising work is managed monthly. In select cases, particularly for e-commerce or clearly defined lead generation, performance-based pricing may be considered when tracking and control requirements are met."
-/>
+        {service.contentSections.map((section) => (
+	<ContentSection
+		heading={section.heading}
+		lead={section.lead}
+		paragraphs={section.paragraphs}
+		items={section.showDeliverables ? service.deliverables : []}
+		closingText={section.closingText}
+	/>
+))}
 <CallToAction
 	heading={service.ctaHeading}
 	paragraphs={service.ctaParagraphs}

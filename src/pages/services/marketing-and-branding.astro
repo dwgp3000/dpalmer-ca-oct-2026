@@ -3,46 +3,86 @@ import Layout from '../../layouts/Layout.astro';
 import BannerHero from '../../components/BannerHero.astro';
 import ContentSection from '../../components/ContentSection.astro';
 import CallToAction from '../../components/CallToAction.astro';
+import StructuredData from '../../components/StructuredData.astro';
+
+import { sanityClient } from 'sanity:client';
+import { createImageUrlBuilder } from '@sanity/image-url';
+
+const builder = createImageUrlBuilder(sanityClient);
+
+function urlFor(source) {
+	return builder.image(source);
+}
+
+const service = await sanityClient.fetch(
+	`*[_type == "service" && slug.current == "services/marketing-and-branding"][0]{
+		title,
+		shortDescription,
+		heroHeading,
+		heroDescription,
+		heroContentPosition,
+		heroImage,
+		contentSections[]{
+			heading,
+			lead,
+			paragraphs,
+			showDeliverables,
+			closingText
+		},
+		deliverables,
+		ctaHeading,
+		ctaParagraphs,
+		ctaButtonText,
+		seo {
+			metaTitle,
+			metaDescription
+		}
+	}`
+);
+
+const heroImageUrl = service.heroImage
+	? urlFor(service.heroImage)
+			.width(1600)
+			.height(680)
+			.fit('crop')
+			.quality(85)
+			.auto('format')
+			.url()
+	: '/images/Marketing-page-1200x509-lr.jpg';
 ---
 
 <Layout
-	title="Online Advertising | Dave Palmer Marketing"
-	description="Online advertising strategy and management for small businesses and organizations."
+	title={service.seo.metaTitle}
+	description={service.seo.metaDescription}
 >
+	<StructuredData
+		name="Dave Palmer Marketing"
+		serviceName={service.title}
+		url="https://dpalmer.ca/services/marketing-and-branding/"
+		description={service.seo.metaDescription}
+		deliverables={service.deliverables}
+	/>
+
 	<BannerHero
-	image="/images/Marketing-page-1200x509-lr.jpg"
-	heading="Marketing & Branding"
-	description="Many organizations don't need more marketing tactics. They need clarity about what matters most and how to turn plans into action."
-	contentPosition="right"
-/>
+		image={heroImageUrl}
+		heading={service.heroHeading}
+		description={service.heroDescription}
+		contentPosition={service.heroContentPosition}
+	/>
 
-        <ContentSection
-	heading="Stop Guessing. Start Prioritizing."
-	lead="Marketing consulting that helps organizations prioritize their marketing, strengthen their brand, and move forward with confidence."
-	paragraphs={[
-		"Many organizations don't struggle because they lack ideas. They struggle because they lack clear priorities.",
-		'I help organizations identify priorities, clarify positioning, strengthen brands, and create practical marketing plans that can actually be implemented.',
-		'Services include:'
-	]}
-	items={[
-	'Marketing Strategy',
-	'Marketing Plans',
-	'Brand Positioning',
-	'Brand Refreshes',
-	'Marketing Audits',
-	'Marketing Campaign Planning',
-	'Marketing Content Development',
-	'Strategic Planning Sessions'
-]}
+	{service.contentSections.map((section) => (
+		<ContentSection
+			heading={section.heading}
+			lead={section.lead}
+			paragraphs={section.paragraphs}
+			items={section.showDeliverables ? service.deliverables : []}
+			closingText={section.closingText}
+		/>
+	))}
 
-/>
-
-<CallToAction
-	heading="Experienced Marketing Leadership When You Need It"
-	paragraphs={[
-		'Not every organization needs a full-time marketing department. Sometimes you simply need an experienced marketing professional to help clarify priorities, solve challenges, and keep important projects moving.',
-		"Whether you're developing a marketing strategy, refreshing your brand, launching a campaign, or simply looking for a second opinion, I provide practical marketing support that helps turn ideas into action and measurable results."
-	]}
-/>
-
+	<CallToAction
+		heading={service.ctaHeading}
+		paragraphs={service.ctaParagraphs}
+		buttonText={service.ctaButtonText}
+	/>
 </Layout>

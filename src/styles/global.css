@@ -58,6 +58,11 @@ body {
 	min-height: 104px;
 	padding: 0;
 }
+.dp-brand-logo {
+	display: block;
+	width: 170px;
+	height: auto;
+}
 
 .dp-brand {
 	display: flex;
@@ -484,6 +489,11 @@ body {
 	color: var(--dp-white);
 	transform: translateY(var(--dp-hover-lift));
 }
+.footer-brand-logo {
+	display: block;
+	width: 170px;
+	height: auto;
+}
 
 .footer-brand {
 	margin-top: 1rem;
@@ -494,16 +504,6 @@ body {
 	text-decoration: none;
 }
 
-.footer-brand-name {
-	font-family: var(--dp-font-display);
-	font-size: 1.7rem;
-	font-weight: 800;
-	letter-spacing: -0.04em;
-}
-
-.footer-brand-sub {
-	margin-top: 0.15rem;
-}
 
 .footer-brand-sub span {
 	color: var(--dp-orange);

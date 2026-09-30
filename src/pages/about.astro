@@ -3,53 +3,85 @@ import Layout from '../layouts/Layout.astro';
 import BannerHero from '../components/BannerHero.astro';
 import ContentSection from '../components/ContentSection.astro';
 import FeatureGrid from '../components/FeatureGrid.astro';
+
+import { sanityClient } from 'sanity:client';
+import { createImageUrlBuilder } from '@sanity/image-url';
+
+const builder = createImageUrlBuilder(sanityClient);
+
+function urlFor(source) {
+	return builder.image(source);
+}
+
+const aboutPage = await sanityClient.fetch(
+	`*[_type == "aboutPage"][0]{
+		heroHeading,
+		heroDescription,
+		heroImage,
+		heroContentPosition,
+
+		contentSections[]{
+			heading,
+			lead,
+			contentType,
+			paragraphs,
+			items,
+			richText,
+			showDeliverables,
+			closingText
+		},
+
+		featureGridHeading,
+
+		features[]{
+			title,
+			icon,
+			description
+		},
+
+		seo {
+			metaTitle,
+			metaDescription
+		}
+	}`
+);
+
+const heroImageUrl = aboutPage.heroImage
+	? urlFor(aboutPage.heroImage)
+			.width(1600)
+			.height(680)
+			.fit('crop')
+			.quality(85)
+			.auto('format')
+			.url()
+	: '/images/about-page-1200x509-lr.jpg';
 ---
 
 <Layout
-	title="Online Advertising | Dave Palmer Marketing"
-	description="Online advertising strategy and management for small businesses and organizations."
+	title={aboutPage.seo.metaTitle}
+	description={aboutPage.seo.metaDescription}
 >
 	<BannerHero
-	image="/images/about-page-1200x509-lr.jpg"
-	heading="Meet Dave"
-	description="Helping organizations clarify priorities, strengthen brands, and get results."
-	contentPosition="right"
-/>
+		image={heroImageUrl}
+		heading={aboutPage.heroHeading}
+		description={aboutPage.heroDescription}
+		contentPosition={aboutPage.heroContentPosition}
+	/>
 
-       <ContentSection
-	heading="Senior Marketing Experience, Practical Approach"
-	lead="With more than 30 years of experience in advertising, branding, digital marketing, and marketing leadership, I help organizations make smarter marketing decisions and achieve measurable business results."
-	paragraphs={[
-		"I've worked in advertising agencies, internal marketing departments, and consulting environments. This experience provides an understanding of how organizations make decisions, allocate resources, and implement change.",
-		'Today, I work with small businesses, nonprofits, and membership organizations that need experienced marketing leadership without the cost of hiring a full-time marketing manager or retaining a large agency.',
-		'My approach is straightforward: understand the business, focus on what matters most, and deliver practical marketing solutions that produce measurable results.'
-	]}
-/>
+	{aboutPage.contentSections.map((section) => (
+		<ContentSection
+			heading={section.heading}
+			lead={section.lead}
+			contentType={section.contentType}
+			paragraphs={section.paragraphs}
+			items={section.items}
+			richText={section.richText}
+			closingText={section.closingText}
+		/>
+	))}
 
-<FeatureGrid
-	heading="HOW I WORK"
-	features={[
-		{
-			title: 'Understand',
-			icon: 'magnifying-glass',
-			description: 'Every organization is different. I start by learning about your business, goals, customers, challenges, and the resources you have available. Understanding the context helps identify what matters most and avoids spending time and money on the wrong activities. I learn your organization, goals, and challenges.'
-		},
-		{
-			title: 'Prioritize',
-			icon: 'crosshair',
-			description: "Marketing opportunities are rarely limited, but time and budgets usually are. Together, we'll identify the activities most likely to produce meaningful results and focus on the initiatives that align with your goals and capacity. Focus on the activities most likely to produce results."
-		},
-		{
-			title: 'Execute',
-			icon: 'gear-six',
-			description: 'Ideas only matter if they get implemented. Whether the project involves advertising, websites, branding, or communications, I help turn plans into action and keep work moving forward in a practical and manageable way. Turn plans into action and keep projects moving.'
-		},
-		{
-			title: 'Measure',
-			icon: 'chart-bar',
-			description: 'Marketing should support business outcomes, not just generate activity. We track results, evaluate performance, and make informed adjustments to improve effectiveness and ensure resources are being invested wisely.'
-		}
-	]}
-/>
-
+	<FeatureGrid
+		heading={aboutPage.featureGridHeading}
+		features={aboutPage.features}
+	/>
 </Layout>

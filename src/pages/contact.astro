@@ -3,46 +3,91 @@ import Layout from '../layouts/Layout.astro';
 import BannerHero from '../components/BannerHero.astro';
 import ContactForm from '../components/ContactForm.astro';
 import CardGrid from '../components/CardGrid.astro';
-import { services } from '../data/services';
+
+import { sanityClient } from 'sanity:client';
+import { createImageUrlBuilder } from '@sanity/image-url';
+
+const builder = createImageUrlBuilder(sanityClient);
+
+function urlFor(source) {
+	return builder.image(source);
+}
+
+const contactPage = await sanityClient.fetch(
+	`*[_type == "contactPage"][0]{
+		heroHeading,
+		heroDescription,
+		heroImage,
+		heroContentPosition,
+
+		contactHeading,
+		contactParagraphs,
+
+		servicesHeading,
+
+		featuredServices[]->{
+			title,
+			shortDescription,
+			"href": "/" + slug.current + "/",
+			icon
+		},
+
+		seo {
+			metaTitle,
+			metaDescription
+		}
+	}`
+);
+
+const heroImageUrl = contactPage.heroImage
+	? urlFor(contactPage.heroImage)
+			.width(1600)
+			.height(680)
+			.fit('crop')
+			.quality(85)
+			.auto('format')
+			.url()
+	: '/images/contact-page-1200x509-lr.jpg';
+
+const services = contactPage.featuredServices?.map((service) => ({
+	title: service.title,
+	description: service.shortDescription,
+	href: service.href,
+	icon: service.icon
+})) ?? [];
 ---
 
 <Layout
-	title="Contact | Dave Palmer Marketing"
-	description="Contact Dave Palmer Marketing to discuss marketing strategy, online advertising, website development, branding, or other marketing needs."
+	title={contactPage.seo.metaTitle}
+	description={contactPage.seo.metaDescription}
 >
 	<BannerHero
-		image="/images/contact-page-1200x509-lr.jpg"
-		heading="Let's Talk About Your Marketing"
-		description="Tell me what you're working on, where you're getting stuck, and what you'd like to accomplish."
-		contentPosition="right"
+		image={heroImageUrl}
+		heading={contactPage.heroHeading}
+		description={contactPage.heroDescription}
+		contentPosition={contactPage.heroContentPosition}
 	/>
 
 	<section class="content-section contact-section">
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-lg-10">
-					<h2>What Happens Next?</h2>
+					<h2>{contactPage.contactHeading}</h2>
 
-					<p>
-						Most projects start with a short conversation about your goals,
-						challenges, and priorities. If there’s a good fit, we’ll discuss
-						scope, timing, and next steps.
-					</p>
-
-					<p>
-						There’s no obligation and no long-term commitment required.
-					</p>
+					{contactPage.contactParagraphs?.map((paragraph) => (
+						<p>{paragraph}</p>
+					))}
 
 					<div class="contact-form-wrapper">
-	<ContactForm />
-</div>
+						<ContactForm />
+					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 
 	<CardGrid
-		heading="SERVICES"
+		heading={contactPage.servicesHeading}
 		columns={3}
 		cards={services}
 	/>

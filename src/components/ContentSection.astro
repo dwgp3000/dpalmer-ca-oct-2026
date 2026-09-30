@@ -34,15 +34,17 @@ const {
 
 			{contentType === 'richText' ? (
 				<div class="content-section-rich-text">
-					<PortableText value={richText} />
+					{richText?.length > 0 && (
+	<PortableText value={richText} />
+)}
 				</div>
 			) : (
 				<>
-					{paragraphs.map((paragraph) => (
+					{paragraphs?.map((paragraph) => (
 						<p>{paragraph}</p>
 					))}
 
-					{items.length > 0 && (
+					{items?.length > 0 && (
 						<div class="row content-section-list">
 							{items.map((item) => (
 								<div class="col-md-6">

@@ -1,15 +1,28 @@
-<footer class="site-footer">
+---
+interface Props {
+	heading?: string;
+	description?: string;
+	linkedinUrl?: string;
+	copyrightText?: string;
+}
+
+const {
+	heading = 'DAVE PALMER MARKETING',
+	description = 'Helping small businesses and organizations turn marketing plans into practical action and measurable results.',
+	linkedinUrl = 'https://www.linkedin.com/in/davewpalmer/',
+	copyrightText = 'Dave Palmer Marketing'
+} = Astro.props;
+---<footer class="site-footer">
 	<div class="container">
 		<div class="footer-inner">
 
 			<div class="row gy-4">
 				<div class="col-md-5 footer-about">
-					<h2 class="footer-heading">DAVE PALMER MARKETING</h2>
+					<h2 class="footer-heading">{heading}</h2>
 
 					<p class="footer-description">
-						Helping small businesses and organizations turn marketing
-						plans into practical action and measurable results.
-					</p>
+	{description}
+</p>
 				</div>
 
 				<div class="col-md-3">
@@ -27,7 +40,7 @@
 					<div class="footer-brand-row">
 						<a
 							class="footer-linkedin"
-							href="https://www.linkedin.com/in/davewpalmer/"
+							href={linkedinUrl}
 							target="_blank"
 							rel="noopener noreferrer"
 							aria-label="Dave Palmer on LinkedIn"
@@ -36,18 +49,19 @@
 						</a>
 
 						<a class="footer-brand" href="/" aria-label="Dave Palmer Marketing home">
-							<div class="footer-brand-name">DAVE PALMER</div>
-							<div class="footer-brand-sub">
-								marketing<span>—</span>
-							</div>
-						</a>
+	<img
+		src="/images/dp-marketing-logo-horz.svg"
+		alt="Dave Palmer Marketing"
+		class="footer-brand-logo"
+	/>
+</a>
 					</div>
 				</div>
 			</div>
 
 			<p class="footer-copyright">
-				© 2026 Dave Palmer Marketing
-			</p>
+	© {new Date().getFullYear()} {copyrightText}
+</p>
 
 		</div>
 	</div>

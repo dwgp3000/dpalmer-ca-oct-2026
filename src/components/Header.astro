@@ -1,10 +1,24 @@
-<header class="site-header">
+---
+interface Props {
+	ctaText?: string;
+	ctaLink?: string;
+}
+
+const {
+	ctaText = "Let's Talk",
+	ctaLink = "/contact"
+} = Astro.props;
+---<header class="site-header">
 	<nav class="navbar navbar-expand-lg">
 		<div class="container">
-			<a class="navbar-brand dp-brand" href="/">
-				<span class="dp-brand-name">DAVE PALMER</span>
-				<span class="dp-brand-sub">marketing<span class="dp-brand-mark">—</span></span>
-			</a>
+			<a class="navbar-brand dp-brand" href="/" aria-label="Dave Palmer Marketing home">
+	<img
+	src="/images/dp-marketing-logo-horz.svg"
+	alt="Dave Palmer Marketing"
+	class="dp-brand-logo"
+/>
+
+</a>
 
 			<button
 				class="navbar-toggler"
@@ -51,7 +65,9 @@
 					</li>
 				</ul>
 
-				<a class="btn dp-header-cta" href="/contact">Let's Talk</a>
+				<a class="btn dp-header-cta" href={ctaLink}>
+	{ctaText}
+</a>
 			</div>
 		</div>
 	</nav>

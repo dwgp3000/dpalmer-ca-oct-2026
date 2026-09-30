@@ -3,7 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import BannerHero from '../components/BannerHero.astro';
 import ContactForm from '../components/ContactForm.astro';
 import CardGrid from '../components/CardGrid.astro';
-
 import { sanityClient } from 'sanity:client';
 import { createImageUrlBuilder } from '@sanity/image-url';
 
@@ -22,6 +21,10 @@ const contactPage = await sanityClient.fetch(
 
 		contactHeading,
 		contactParagraphs,
+		bookingText,
+        bookingButtonText,
+        bookingUrl,
+
 
 		servicesHeading,
 
@@ -75,12 +78,29 @@ const services = contactPage.featuredServices?.map((service) => ({
 					<h2>{contactPage.contactHeading}</h2>
 
 					{contactPage.contactParagraphs?.map((paragraph) => (
-						<p>{paragraph}</p>
-					))}
+	<p>{paragraph}</p>
+))}
 
-					<div class="contact-form-wrapper">
-						<ContactForm />
-					</div>
+{contactPage.bookingUrl && (
+	<div class="contact-booking">
+		{contactPage.bookingText && (
+			<p>{contactPage.bookingText}</p>
+		)}
+
+		<a
+			class="btn dp-primary-button"
+			href={contactPage.bookingUrl}
+			target="_blank"
+			rel="noopener noreferrer"
+		>
+			{contactPage.bookingButtonText || 'Book a Free Consultation'}
+		</a>
+	</div>
+)}
+
+<div class="contact-form-wrapper">
+	<ContactForm />
+</div>
 				</div>
 			</div>
 		</div>

@@ -3,32 +3,70 @@ import Layout from '../../layouts/Layout.astro';
 import BannerHero from '../../components/BannerHero.astro';
 import ContentSection from '../../components/ContentSection.astro';
 import CardGrid from '../../components/CardGrid.astro';
-import { services } from '../../data/services';
+import { sanityClient } from 'sanity:client';
+import { createImageUrlBuilder } from '@sanity/image-url';
+
+const builder = createImageUrlBuilder(sanityClient);
+
+const servicesPage = await sanityClient.fetch(
+	`*[_type == "servicesPage"][0]{
+		heroHeading,
+		heroDescription,
+		heroImage,
+		heroContentPosition,
+
+		contentHeading,
+		contentLead,
+		contentParagraphs,
+
+		servicesHeading,
+
+		featuredServices[]->{
+			title,
+			shortDescription,
+			slug,
+			icon
+		},
+
+		seo {
+			metaTitle,
+			metaDescription
+		}
+	}`
+);
+
+const heroImageUrl = servicesPage?.heroImage
+	? builder.image(servicesPage.heroImage).width(1600).url()
+	: '/images/Services-page-1200x509-lr.jpg';
+
+const services = servicesPage?.featuredServices?.map((service) => ({
+	title: service.title,
+	description: service.shortDescription,
+	href: `/services/${service.slug.current}/`,
+	icon: service.icon
+})) ?? [];
 ---
 
 <Layout
-	title="Online Advertising | Dave Palmer Marketing"
-	description="Online advertising strategy and management for small businesses and organizations."
+	title={servicesPage?.seo?.metaTitle}
+	description={servicesPage?.seo?.metaDescription}
 >
 	<BannerHero
-	image="/images/Services-page-1200x509-lr.jpg"
-	heading="Services"
-	description="Online advertising, websites, marketing & branding."
-	contentPosition="right"
-/>
+		image={heroImageUrl}
+		heading={servicesPage.heroHeading}
+		description={servicesPage.heroDescription}
+		contentPosition={servicesPage.heroContentPosition}
+	/>
 
-       <ContentSection
-	heading="Marketing Services for Small Businesses"
-	lead="Marketing consulting, website development, and online advertising that help organizations attract customers, strengthen their brand, and achieve measurable results."
-	paragraphs={[
-		'With more than 30 years of experience in agency and in-house marketing leadership, I help small businesses, nonprofits, and membership organizations turn marketing plans into practical action.'
-	]}
-/>
-<CardGrid
-	heading="SERVICES"
-	columns={3}
-	cards={services}
-/>
+	<ContentSection
+		heading={servicesPage.contentHeading}
+		lead={servicesPage.contentLead}
+		paragraphs={servicesPage.contentParagraphs ?? []}
+	/>
 
-
+	<CardGrid
+		heading={servicesPage.servicesHeading}
+		columns={3}
+		cards={services}
+	/>
 </Layout>

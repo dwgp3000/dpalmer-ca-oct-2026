@@ -5,6 +5,9 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import StructuredData from '../components/StructuredData.astro';
 import { sanityClient } from 'sanity:client';
+import { createImageUrlBuilder } from '@sanity/image-url';
+
+const builder = createImageUrlBuilder(sanityClient);
 
 interface Props {
 	title?: string;
@@ -23,9 +26,10 @@ const siteSettings = await sanityClient.fetch(
 		footerDescription,
 		copyrightText,
 		defaultSeo {
-			metaTitle,
-			metaDescription
-		}
+	    metaTitle,
+	    metaDescription,
+	    openGraphImage
+        }
 	}`
 );
 
@@ -33,6 +37,11 @@ const {
 	title = siteSettings?.defaultSeo?.metaTitle || 'Dave Palmer Marketing',
 	description = siteSettings?.defaultSeo?.metaDescription || 'Marketing, advertising and website development in Regina, Saskatchewan.'
 } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, 'https://dpalmer.ca');
+
+const openGraphImageUrl = siteSettings?.defaultSeo?.openGraphImage
+	? builder.image(siteSettings.defaultSeo.openGraphImage).width(1200).height(630).url()
+	: undefined;
 ---
 
 <!doctype html>
@@ -40,6 +49,7 @@ const {
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="canonical" href={canonicalURL} />
 
 <StructuredData />
 
@@ -51,10 +61,35 @@ const {
 />
 
 		<title>{title}</title>
-		<meta name="description" content={description} />
+        <meta name="description" content={description} />
+        <link rel="canonical" href={canonicalURL} />
 
-		<link rel="icon" href="/favicon.ico" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:site_name" content={siteSettings?.siteName || 'Dave Palmer Marketing'} />
+
+{openGraphImageUrl && (
+	<>
+		<meta property="og:image" content={openGraphImageUrl} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+	</>
+)}
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+
+{openGraphImageUrl && (
+	<meta name="twitter:image" content={openGraphImageUrl} />
+)}
+
+<link rel="icon" type="image/png" href="/favicon.png" />
+<meta name="generator" content={Astro.generator} />
 		<meta name="generator" content={Astro.generator} />
+		
 	</head>
 
 <body>

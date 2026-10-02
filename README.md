@@ -1,46 +1,78 @@
-# Astro Starter Kit: Basics
+# dpalmer.ca
 
-```sh
-npm create astro@latest -- --template basics
-```
+Website for Dave Palmer Marketing.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+This is a statically generated website built with **Astro**, using **Sanity** as the headless CMS and **Cloudflare** for building, deployment and hosting.
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+## Architecture
 
 ```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+Sanity CMS
+    ↓
+Astro
+    ↓
+Cloudflare
+    ↓
+dpalmer.ca
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+Published Sanity content automatically triggers a Cloudflare rebuild through a webhook and Deploy Hook.
 
-## 🧞 Commands
+## Projects
 
-All commands are run from the root of the project, from a terminal:
+The system uses two repositories:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+- **dpalmer-ca** — Astro website
+- **dpalmer-studio** — Sanity Studio and schemas
 
-## 👀 Want to learn more?
+## Local Development
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Build the production site:
+
+```bash
+npm run build
+```
+
+Preview the production build:
+
+```bash
+npm run preview
+```
+
+## Production
+
+Production site:
+
+`https://dpalmer.ca`
+
+Production branch:
+
+`main`
+
+Cloudflare automatically deploys code changes pushed to `main`.
+
+Content changes are published through Sanity Studio and automatically trigger a Cloudflare rebuild.
+
+## Documentation
+
+See:
+
+**[PROJECT-DOCUMENTATION.md](./PROJECT-DOCUMENTATION.md)**
+
+for the complete architecture, development, deployment, CMS, maintenance, recovery and troubleshooting documentation.
+
+## Security
+
+Do not commit API secrets, tokens, passwords, environment files or Cloudflare Deploy Hook URLs to this repository.

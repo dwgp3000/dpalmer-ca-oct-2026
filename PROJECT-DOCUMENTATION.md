@@ -5,7 +5,7 @@
 **CMS:** Sanity Studio  
 **Hosting/build platform:** Cloudflare  
 **Website framework:** Astro  
-**Last verified:** October 2, 2026
+**Last verified:** October 4, 2026 (search infrastructure and legacy service redirects; launch/QA checks dated below)
 
 ---
 
@@ -623,6 +623,39 @@ The following were tested successfully during production launch/QA.
 - Valid production pages return HTTP 200
 - Invalid URLs return HTTP 404
 
+## Legacy service-page redirects
+
+The Webflow migration replaced three service-page URLs with the new `/services/.../` structure.
+
+Maintain these redirects in the Cloudflare **Domain `dpalmer.ca`**, under **Rules → Single Redirects**:
+
+| Old Webflow URI Path | New destination URL |
+| --- | --- |
+| `/services-websites` | `https://dpalmer.ca/services/websites/` |
+| `/services-online-advertising` | `https://dpalmer.ca/services/online-advertising/` |
+| `/services-marketing-and-branding` | `https://dpalmer.ca/services/marketing-and-branding/` |
+
+Create one Single Redirect per old path using:
+
+- **Match:** Custom filter expression
+- **Field:** URI Path
+- **Operator:** equals
+- **Value:** the old path shown above
+- **Redirect type:** Static
+- **Destination:** the corresponding full URL shown above
+- **Status code:** 301 Permanent Redirect
+- **Preserve query string:** ON
+
+URI Path matching applies to both `dpalmer.ca` and `www.dpalmer.ca` in this zone. Place these rules above the general `www → root` redirect so each old service URL goes directly to its new canonical URL without an extra redirect.
+
+Expected result:
+
+```text
+Old Webflow service URL → 301 → new canonical service URL → 200
+```
+
+These migration redirects are maintained in Cloudflare rather than the Astro codebase. When checking them, test both hostnames and confirm that query strings are retained.
+
 ## Search infrastructure
 
 - `robots.txt` returns HTTP 200
@@ -630,6 +663,9 @@ The following were tested successfully during production launch/QA.
 - robots.txt references the sitemap
 - `sitemap-index.xml` returns HTTP 200
 - generated sitemap contains the production pages
+- Google Search Console reported **Success** for `https://dpalmer.ca/sitemap-index.xml` on **October 4, 2026**, with **7 discovered pages**
+
+Discovered pages are URLs found in the sitemap, not confirmation that all seven pages are indexed. The previous Webflow sitemap submission was removed. See [Google Search Console sitemap 403](#google-search-console-sitemap-403) for the confirmed crawler issue and resolution.
 
 ## SEO
 
@@ -808,6 +844,32 @@ Check in this order:
 7. Refresh the browser after the deployment is active.
 
 A quick diagnostic is to run the Astro development server locally. If the new Sanity content appears locally but not in production, Sanity itself is probably functioning and the issue is likely in the build/deployment path.
+
+---
+
+## Google Search Console sitemap 403
+
+The Google Search Console / Cloudflare crawler issue was confirmed resolved on **October 4, 2026**.
+
+Verified sequence:
+
+1. Cloudflare **AI Crawl Control** initially blocked Googlebot and returned **HTTP 403** for `sitemap-index.xml`.
+2. The crawler block was removed in Cloudflare.
+3. Google **Live URL Inspection** then succeeded.
+4. Search Console continued to display the previous sitemap 403 until Google retried the sitemap fetch. The successful live test did not immediately update the stored sitemap result.
+5. On **October 4, 2026**, the sitemap's **Last read** date updated and its status became **Success**, with **7 discovered pages**.
+
+The cause was Cloudflare's crawler policy. The Astro sitemap configuration did not need to be changed.
+
+If this happens again:
+
+1. Confirm `robots.txt` and `sitemap-index.xml` are accessible and return HTTP 200.
+2. Check **Domain `dpalmer.ca` → AI Crawl Control** for Googlebot blocking and request activity. Review Cloudflare security events for the sitemap path as well.
+3. Remove the crawler block responsible for the failure and run Google Live URL Inspection again.
+4. Compare new Cloudflare crawler activity with Search Console's sitemap **Last read** date and status. An unchanged 403 can still reflect the earlier failed fetch.
+5. Leave the sitemap submitted and allow Google to retry. Repeatedly removing and resubmitting it does not guarantee an immediate fetch.
+
+Use the next actual sitemap fetch to confirm recovery. This incident does not establish a fixed retry interval or a Google caching bug.
 
 ---
 

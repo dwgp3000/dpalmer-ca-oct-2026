@@ -1,0 +1,37 @@
+# Dave Palmer Marketing
+
+> Dave Palmer Marketing provides marketing strategy, branding, online advertising, and website development services.
+
+This website explains the services offered by Dave Palmer Marketing, provides background information about Dave Palmer, and gives prospective clients a way to get in touch.
+
+## Main Pages
+
+- [Home](https://dpalmer.ca/): Overview of Dave Palmer Marketing and its core services.
+
+- [Services](https://dpalmer.ca/services/): Overview of marketing, branding, online advertising, and website development services.
+
+- [Online Advertising](https://dpalmer.ca/services/online-advertising/): Strategic online advertising services across platforms such as Google, Meta, and LinkedIn. Services include campaign strategy, advertising content and creative development, landing page development and optimization, Google Ads management, Meta advertising, LinkedIn advertising, conversion tracking, reporting, testing, and ongoing campaign optimization.
+
+- [Websites](https://dpalmer.ca/services/websites/): Strategic, conversion-focused website development designed to support marketing goals, improve visibility, and help organizations grow. Services include website strategy, website development, landing page development, website copywriting, SEO planning and optimization, website refreshes, content updates, and ongoing maintenance and support.
+
+- [Marketing & Branding](https://dpalmer.ca/services/marketing-and-branding/): Marketing consulting that helps organizations prioritize their marketing, clarify positioning, strengthen their brand, and create practical plans. Services include marketing strategy, brand positioning, marketing audits, marketing content development, marketing plans, brand refreshes, campaign planning, and strategic planning sessions.
+
+- [About](https://dpalmer.ca/about/): Background and professional experience of Dave Palmer.
+
+- [Contact](https://dpalmer.ca/contact/): Contact information and inquiry form.
+
+## Service Approach
+
+Online advertising work is generally managed on a monthly basis and may include campaign setup, testing, optimization, reporting, and coordination with landing pages or website content.
+
+Website projects are typically delivered as fixed-scope engagements. Ongoing maintenance, content updates, and optimization are available through monthly support plans.
+
+Marketing and branding work focuses on helping organizations identify priorities, strengthen positioning, and develop practical marketing plans that can be implemented.
+
+## About This Site
+
+This site is intended primarily for organizations looking for marketing strategy, branding, online advertising, or website development services.
+
+The individual service pages are the best source for detailed information about each service.
+
+For current contact information or to inquire about a project, use the Contact page.

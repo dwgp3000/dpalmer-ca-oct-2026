@@ -147,6 +147,13 @@ These are separate workflows.
 
 Do not manually modify production infrastructure unless the task requires it.
 
+## Pre-Launch Checklist
+
+For dpalmer.ca and future client sites, complete these requirements before launch:
+
+1. Install Google Analytics 4 globally across the site, using the client's existing GA4 property where appropriate. Document the analytics setup and consider contact-form conversion/event tracking where applicable. After deployment, verify that visits appear in GA4 Realtime before launch.
+2. Include a concise, factual `public/llms.txt` file deployed at `/llms.txt`. Summarize the site's purpose and main pages/services using the site's actual terminology. Avoid promotional language, keyword stuffing and instructions to AI systems. Verify the live `/llms.txt` URL before launch.
+
 ## Cloudflare
 
 Cloudflare terminology used by this project:
